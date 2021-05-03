@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { Answer, Question, QuestionGroup, UserEvent } from './entities';
+import { Answer, Event, Question, QuestionGroup, UserEvent } from './entities';
 
 @Module({
   imports: [
