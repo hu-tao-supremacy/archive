@@ -14,6 +14,7 @@ import {
   User,
   UserEvent,
 } from './entities';
+import { ArchiveModule } from './archive/archive.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import {
       synchronize: false,
       namingStrategy: new SnakeNamingStrategy(),
     }),
+    ArchiveModule,
   ],
   controllers: [AppController],
   providers: [AppService],
