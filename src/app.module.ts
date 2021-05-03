@@ -3,7 +3,17 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { Answer, Event, Question, QuestionGroup, UserEvent } from './entities';
+import {
+  Answer,
+  Event,
+  EventDuration,
+  Location,
+  Organization,
+  Question,
+  QuestionGroup,
+  User,
+  UserEvent,
+} from './entities';
 
 @Module({
   imports: [
@@ -14,7 +24,17 @@ import { Answer, Event, Question, QuestionGroup, UserEvent } from './entities';
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
-      entities: [UserEvent, Event, Question, QuestionGroup, Answer],
+      entities: [
+        UserEvent,
+        Event,
+        Location,
+        EventDuration,
+        Organization,
+        Question,
+        QuestionGroup,
+        Answer,
+        User,
+      ],
       synchronize: false,
       namingStrategy: new SnakeNamingStrategy(),
     }),
