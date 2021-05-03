@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { Answer, Question, QuestionGroup, UserEvent } from './entities';
@@ -14,6 +15,8 @@ import { Answer, Question, QuestionGroup, UserEvent } from './entities';
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
       entities: [UserEvent, Event, Question, QuestionGroup, Answer],
+      synchronize: false,
+      namingStrategy: new SnakeNamingStrategy(),
     }),
   ],
   controllers: [AppController],
