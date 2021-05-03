@@ -3,8 +3,10 @@ import {
   Entity,
   Index,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Answer } from './answer.entity';
 import { Event } from './event.entity';
 import { User } from './user.entity';
 
@@ -26,6 +28,9 @@ export class UserEvent {
 
   @ManyToOne(() => Event, { onDelete: 'CASCADE' })
   event: Event;
+
+  @OneToMany(() => Answer, (answer) => answer.userEvent)
+  answers: Answer[];
 
   @Column({ nullable: true })
   rating?: number;
