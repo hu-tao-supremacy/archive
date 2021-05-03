@@ -1,5 +1,4 @@
 export * from './answer.entity'
-export * from './attendance-context.entity'
 export * from './event-duration.entity'
 export * from './event-tag.entity'
 export * from './event.entity'
