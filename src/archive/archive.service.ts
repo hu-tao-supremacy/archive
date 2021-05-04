@@ -46,19 +46,22 @@ export class ArchiveService {
     );
 
     const exportable: Record<any, any> = {};
-    exportable.questions = {};
+    exportable.q = {};
 
     questionGroups.forEach((questionGroup) => {
       questionGroup.questions.forEach((question) => {
-        exportable.questions[
+        exportable.q[
           `${questionGroup.seq}.${question.seq} - ${questionGroup.title} - ${question.title}`
-        ] = answers.find((answer) => answer.questionId === question.id).value;
+        ] =
+          answers.find((answer) => answer.questionId === question.id)?.value ??
+          '';
       });
     });
 
-    exportable.id = userEvent.id;
-    exportable.ticket = userEvent.ticket ?? '';
-    exportable.status = userEvent.status;
+    exportable.attendee = {};
+    exportable.attendee.id = userEvent.id;
+    exportable.attendee.ticket = userEvent.ticket ?? '';
+    exportable.attendee.status = userEvent.status;
 
     exportable.user = {
       firstName: user.firstName,
