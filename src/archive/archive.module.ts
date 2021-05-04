@@ -3,9 +3,13 @@ import { ArchiveService } from './archive.service';
 import { ArchiveController } from './archive.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Event, UserEvent } from 'src/entities';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserEvent, Event])],
+  imports: [
+    JwtModule.register({ secret: process.env.JWT_SECRET }),
+    TypeOrmModule.forFeature([UserEvent, Event]),
+  ],
   providers: [ArchiveService],
   controllers: [ArchiveController],
 })
