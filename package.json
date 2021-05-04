@@ -28,6 +28,7 @@
     "@nestjs/typeorm": "^7.1.5",
     "@types/flat": "^5.0.1",
     "@types/lodash": "^4.14.168",
+    "csv": "^5.5.0",
     "flat": "^5.0.2",
     "lodash": "^4.17.21",
     "pg": "^8.6.0",
