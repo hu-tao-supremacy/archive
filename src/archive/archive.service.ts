@@ -55,7 +55,7 @@ export class ArchiveService {
       questionGroup.questions.forEach((question) => {
         exportable.question[
           `${questionGroup.type}.${questionGroup.seq}.${question.seq}.${
-            questionGroup.title ? questionGroup.title : 'Additional Information'
+            questionGroup.title ? questionGroup.title : 'Additional Questions'
           }.${question.title}`
         ] =
           answers.find((answer) => answer.questionId === question.id)?.value ??
