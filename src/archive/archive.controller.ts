@@ -8,9 +8,13 @@ import { nanoid } from 'nanoid';
 export class ArchiveController {
   constructor(private readonly archiveService: ArchiveService) {}
 
-  @Get('/:eventId')
+  @Get('/:archiveKey')
   @Header('Content-Type', 'text/csv')
-  async generateCSV(@Param('eventId') eventId: number, @Res() res: Response) {
+  async generateCSV(
+    @Param('archiveKey') archiveKey: string,
+    @Res() res: Response,
+  ) {
+    const eventId = this.archiveService.getEventId(archiveKey);
     const exportableObjects = await this.archiveService.makeExportableObjects(
       eventId,
     );
