@@ -12,7 +12,7 @@ export class ArchiveService {
     private userEventRepository: Repository<UserEvent>,
   ) {}
 
-  async getUserEvents(eventId: number) {
+  async makeExportableObjects(eventId: number) {
     const userEvents = await this.userEventRepository.find({
       where: { eventId },
       relations: [
@@ -24,11 +24,11 @@ export class ArchiveService {
       ],
     });
 
-    let exports = userEvents.map((userEvent) =>
+    const exports = userEvents.map((userEvent) =>
       this.createExportable(userEvent),
     );
 
-    console.log(JSON.stringify(exports, null, 2));
+    return exports;
   }
 
   createExportable(userEvent: UserEvent) {
