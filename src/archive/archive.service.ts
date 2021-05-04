@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import * as flat from 'flat';
 import { Event, UserEvent, Question, QuestionGroup } from 'src/entities';
 import { Repository } from 'typeorm';
+import * as _ from 'lodash';
 
 @Injectable()
 export class ArchiveService {
@@ -28,6 +29,8 @@ export class ArchiveService {
       this.createExportable(userEvent),
     );
 
+    console.log(JSON.stringify(exports, null, 2));
+
     return exports;
   }
 
@@ -46,12 +49,14 @@ export class ArchiveService {
     );
 
     const exportable: Record<any, any> = {};
-    exportable.q = {};
+    exportable.question = {};
 
     questionGroups.forEach((questionGroup) => {
       questionGroup.questions.forEach((question) => {
-        exportable.q[
-          `${questionGroup.seq}.${question.seq} - ${questionGroup.title} - ${question.title}`
+        exportable.question[
+          `${questionGroup.type}.${questionGroup.seq}.${question.seq}.${
+            questionGroup.title ? questionGroup.title : 'Additional Information'
+          }.${question.title}`
         ] =
           answers.find((answer) => answer.questionId === question.id)?.value ??
           '';
@@ -63,7 +68,7 @@ export class ArchiveService {
     exportable.attendee.ticket = userEvent.ticket ?? '';
     exportable.attendee.status = userEvent.status;
 
-    exportable.user = {
+    exportable.attendee.info = {
       firstName: user.firstName,
       lastName: user.lastName,
       nickname: user.nickname ?? '',
@@ -78,6 +83,10 @@ export class ArchiveService {
       address: user.address ?? '',
     };
 
-    return flat(exportable);
+    return this.sortObjectKeys(flat(exportable));
+  }
+
+  sortObjectKeys(object: Object) {
+    return _(object).toPairs().sortBy(0).fromPairs().value();
   }
 }
