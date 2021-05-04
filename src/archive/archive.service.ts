@@ -1,13 +1,15 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as flat from 'flat';
 import { Event, UserEvent, Question, QuestionGroup } from 'src/entities';
 import { Repository } from 'typeorm';
 import * as _ from 'lodash';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class ArchiveService {
   constructor(
+    private readonly jwtService: JwtService,
     @InjectRepository(Event) private eventRepository: Repository<Event>,
     @InjectRepository(UserEvent)
     private userEventRepository: Repository<UserEvent>,
@@ -28,8 +30,6 @@ export class ArchiveService {
     const exports = userEvents.map((userEvent) =>
       this.createExportable(userEvent),
     );
-
-    console.log(JSON.stringify(exports, null, 2));
 
     return exports;
   }
@@ -84,6 +84,15 @@ export class ArchiveService {
     };
 
     return this.sortObjectKeys(flat(exportable));
+  }
+
+  getEventId(archiveKey: string): number {
+    try {
+      const eventId = this.jwtService.decode(archiveKey);
+      return Number(eventId);
+    } catch (_) {
+      throw new BadRequestException('Archive Key is invalid or expired.');
+    }
   }
 
   sortObjectKeys(object: Object) {
